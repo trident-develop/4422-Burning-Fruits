@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456393487367",
+    "project_id": "burning-fruits-8f968",
+    "storage_bucket": "burning-fruits-8f968.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456393487367:android:c7cb425096a7732dfaa6a2",
+        "android_client_info": {
+          "package_name": "com.rasugames"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbNr3wscYJVkJLk8goNcOKn9MulcVGwF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
