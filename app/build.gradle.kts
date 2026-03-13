@@ -7,6 +7,14 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    id("org.lsposed.lsparanoid")
+}
+
+lsparanoid {
+    seed = 723
+    classFilter = { it.startsWith("com.rasugames") }
+    includeDependencies = true
+    variantFilter = { true }
 }
 
 android {
@@ -21,8 +29,8 @@ android {
         applicationId = "com.rasugames"
         minSdk = 28
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,6 +70,10 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     testImplementation(libs.junit)
+    implementation(libs.installreferrer)
+    implementation(libs.okhttp)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.datastore.preferences)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

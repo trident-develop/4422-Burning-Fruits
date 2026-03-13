@@ -36,12 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.rasugames.R
+import com.rasugames.navigation.NavigationStore.navigate
+import com.rasugames.navigation.ScreenNav
 import com.rasugames.navigation.Screens
 import com.rasugames.ui.components.MenuButton
 import com.rasugames.ui.theme.GameFont
 
 @Composable
-fun ConnectScreen(navController: NavController) {
+fun ConnectScreen() {
 
     var showButton by remember { mutableStateOf(true) }
     var showConnecting by remember { mutableStateOf(false) }
@@ -128,9 +130,7 @@ fun ConnectScreen(navController: NavController) {
                                 showConnecting = true
 
                                 if (context.isFruitConnected()) {
-                                    navController.navigate(Screens.Loading.route) {
-                                        popUpTo(Screens.Connect.route) { inclusive = true }
-                                    }
+                                    navigate(ScreenNav.Loading)
                                 } else {
                                     showButton = true
                                     showConnecting = false

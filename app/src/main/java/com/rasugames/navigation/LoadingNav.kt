@@ -1,44 +1,52 @@
 package com.rasugames.navigation
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.rasugames.LoadingActivity
-import com.rasugames.MainActivity
 import com.rasugames.ui.screens.ConnectScreen
 import com.rasugames.ui.screens.LoadingScreen
-import com.rasugames.ui.screens.isFruitConnected
-import kotlinx.coroutines.delay
+import com.rasugames.utils.core.RouteManager
 
 @SuppressLint("ContextCastToActivity")
 @Composable
-fun LoadingGraph() {
-
+fun LoadingGraph(
+    route: RouteManager,
+    act: ComponentActivity,
+    onNext: () -> Unit
+) {
     val navController = rememberNavController()
-    val context = LocalContext.current as LoadingActivity
 
     NavHost(
         navController = navController,
-        startDestination = if (context.isFruitConnected()) Screens.Loading.route else Screens.Connect.route
+        startDestination = Screens.Loading.route
     ) {
         composable(Screens.Loading.route) {
-
-            LaunchedEffect(Unit) {
-                delay(2000)
-                context.startActivity(Intent(context, MainActivity::class.java))
-                context.finish()
+            val screen by NavigationStore.currentScreen.collectAsState()
+            when (screen) {
+                ScreenNav.Loading -> LoadingScreen(route, act)
+                ScreenNav.Move -> StartMenu {
+                    onNext()
+                }
+                ScreenNav.NoConnection -> ConnectScreen()
+                else -> {}
             }
-
-            LoadingScreen {  }
         }
 
         composable(Screens.Connect.route) {
-            ConnectScreen(navController)
+            ConnectScreen()
         }
+    }
+}
+
+@Composable
+fun StartMenu(onMove: () -> Unit) {
+    LaunchedEffect(Unit) {
+        onMove()
     }
 }

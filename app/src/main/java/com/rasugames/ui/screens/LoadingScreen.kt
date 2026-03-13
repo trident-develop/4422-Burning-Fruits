@@ -1,5 +1,6 @@
 package com.rasugames.ui.screens
 
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -33,11 +34,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rasugames.R
+import com.rasugames.navigation.NavigationStore.navigate
+import com.rasugames.navigation.ScreenNav
 import com.rasugames.ui.theme.GameFont
+import com.rasugames.utils.core.RouteManager
+import com.rasugames.utils.core.startRoute
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoadingScreen(onFinished: () -> Unit) {
+fun LoadingScreen(
+    route: RouteManager,
+    act: ComponentActivity,
+) {
 
     val fruits = listOf(
         R.drawable.cherry,
@@ -106,7 +114,7 @@ fun LoadingScreen(onFinished: () -> Unit) {
                 modifier = Modifier
                     .align(Alignment.Center)
                     .offset(x = x, y = offsetY.dp)
-                    .size(screenWidth * 0.12f) // адаптивный размер
+                    .size(screenWidth * 0.12f)
                     .graphicsLayer {
                         scaleX = scale
                         scaleY = scale
@@ -122,5 +130,18 @@ fun LoadingScreen(onFinished: () -> Unit) {
                 .padding(bottom = 100.dp)
                 .size(70.dp)
         )
+    }
+    LaunchedEffect(Unit) {
+        if (act.isFruitConnected()) {
+            try {
+                startRoute(act, route)
+            } catch (e: Exception) {
+                navigate(ScreenNav.Move)
+                return@LaunchedEffect
+            }
+        } else {
+            delay(1500)
+            navigate(ScreenNav.NoConnection)
+        }
     }
 }

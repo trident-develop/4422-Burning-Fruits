@@ -1,1 +1,6 @@
 -keep class androidx.work.impl.WorkDatabase_Impl { *; }
+-dontwarn org.gradle.api.Plugin
+-dontoptimize
+-repackageclasses 'androidx.compose.foundation'
+-allowaccessmodification
+-keep class com.google.android.gms.ads.identifier.** { *; }
